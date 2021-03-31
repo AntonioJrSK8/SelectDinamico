@@ -14,6 +14,12 @@ class SelectDinamico extends Component
     public $title = '';
     public $user_id = '';
 
+    protected $rules = [
+        'title' => 'required',
+        'search' => 'required',
+        'user_id' => 'integer'
+    ];
+
     public function updatedSearch()
     {
         $this->showList = 'block';
@@ -23,10 +29,11 @@ class SelectDinamico extends Component
 
     public function create()
     {
-        Book::create([
-            'title' => $this->title,
-            'user_id' => $this->user_id
-        ]);
+        $validatedData = $this->validate();
+
+        Book::create($validatedData);
+
+        $this->clear();
 
     }
     public function selectedUser($user)
